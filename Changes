@@ -1,6 +1,11 @@
 Revision history for Perl extension Tk::StyleDialog.
 
-0.01  Thu Sep 18 11:22:26 2008
-	- original version; created by h2xs 1.23 with options
-		-X -n Tk::StyleDialog
+  0.02  Sep 19 2008
+  - Added a binding so that the space bar invokes the default button in addition
+    to just the return key.
+  - Added an option of `-center => 0` to stop the default behavior of centering
+    the dialog box on-screen.
+  - Fixed the Makefile so it doesn't require Perl 5.10 :)
 
+  0.01  Sep 18 2008
+  - Initial release.

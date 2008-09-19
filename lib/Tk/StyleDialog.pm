@@ -10,7 +10,7 @@ use Tk::Toplevel;
 use Tk::PNG;
 use Tk::Widget;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 Tk::Widget->Construct ('StyleDialog');
 
 # CORE Built-in icons.
@@ -73,6 +73,7 @@ sub Show {
 	my $title   = 'Error';
 	my $text    = 'An error has occurred.';
 	my $icon    = 'error';
+	my $center  = 1;
 	my $winicon = 'error';
 	my $winmask = 'error';
 	my $buttons = [ '  Ok  ' ];
@@ -86,6 +87,7 @@ sub Show {
 	$title = delete $args->{'-title'} if exists $args->{'-title'};
 	$text  = delete $args->{'-text'}  if exists $args->{'-text'};
 	$icon  = delete $args->{'-icon'}  if exists $args->{'-icon'};
+	$center  = delete $args->{'-center'} if exists $args->{'-center'};
 	$winicon = delete $args->{'-winicon'} if exists $args->{'-winicon'};
 	$winmask = delete $args->{'-winmask'} if exists $args->{'-winmask'};
 	$buttons = delete $args->{'-buttons'} if exists $args->{'-buttons'};
@@ -120,6 +122,9 @@ sub Show {
 
 	# Handle keypresses.
 	$win->bind ('<Return>', sub {
+		$selectedbutton = $default_button;
+	});
+	$win->bind ('<space>', sub {
 		$selectedbutton = $default_button;
 	});
 	$win->bind ('<Escape>', sub {
@@ -227,14 +232,18 @@ sub Show {
 		-justify => 'left',
 	)->pack (-side => 'top', -anchor => 'nw', -pady => 20, -padx => 10);
 
-	# Center the window.
+	# Update the window to get realistic dimensions.
 	$win->withdraw;
 	$win->update;
-	my $screenwidth = $args->{mw}->screenwidth;
-	my $screenheight = $args->{mw}->screenheight;
-	my $posX = ($screenwidth - $win->width) / 2;
-	my $posY = ($screenheight - $win->height) / 2;
-	$win->MoveToplevelWindow (int($posX),int($posY));
+
+	# Center the window?
+	if ($center) {
+		my $screenwidth = $args->{mw}->screenwidth;
+		my $screenheight = $args->{mw}->screenheight;
+		my $posX = ($screenwidth - $win->width) / 2;
+		my $posY = ($screenheight - $win->height) / 2;
+		$win->MoveToplevelWindow (int($posX),int($posY));
+	}
 
 	# Set the minsize to be its default size.
 	$win->minsize ($win->width,$win->height);
@@ -334,6 +343,18 @@ By default, the dialog window will be treated as a C<transient> window to the
 window that called it. Until the dialog is cleared, input to its parent window
 isn't allowed. This is suitable for most cases, but if you want the dialog to be
 its own standalone Toplevel, set C<-standalone> to be 1.
+
+=item -center
+
+Center the window in the middle of your screen. By default, C<-center> is 1,
+because a dialog box appearing in the middle of the screen seems to be standard
+among all programs that summon dialog boxes. It gets a little tricky with
+dual monitors, though, because C<Tk::screenwidth> and C<Tk::screenheight> will
+report the combined dimensions of all monitors. This behavior was noted on Linux
+with an NVIDIA graphics card and might not be true of all dual monitor setups.
+
+If you'd prefer that your dialog doesn't center itself on the screen, set
+C<-center> to be C<0>.
 
 =item -grab
 
@@ -457,6 +478,18 @@ built-in collection, they'll have to be removed. To that end I'd probably
 recommend that if the use of a particular icon is absolutely crucial to your
 program that you include it with your program and pass in a Tk::Photo object
 instead.
+
+=head1 CHANGES
+
+  0.02  Sep 19 2008
+  - Added a binding so that the space bar invokes the default button in addition
+    to just the return key.
+  - Added an option of `-center => 0` to stop the default behavior of centering
+    the dialog box on-screen.
+  - Fixed the Makefile so it doesn't require Perl 5.10 :)
+
+  0.01  Sep 18 2008
+  - Initial release.
 
 =head1 SEE ALSO
 
