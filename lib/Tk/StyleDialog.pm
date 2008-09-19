@@ -10,7 +10,7 @@ use Tk::Toplevel;
 use Tk::PNG;
 use Tk::Widget;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 Tk::Widget->Construct ('StyleDialog');
 
 # CORE Built-in icons.
@@ -136,14 +136,6 @@ sub Show {
 		$win->transient ($win->Parent->toplevel);
 	}
 
-	# Grab.
-	if ($grab eq 'global') {
-		$win->grabGlobal;
-	}
-	else {
-		$win->grab;
-	}
-
 	# Divide the window into frames.
 	my $bottom_frame = $win->Frame->pack (-side => 'bottom', -fill => 'x');
 	my $top_half     = $win->Frame->pack (-side => 'bottom', -fill => 'both', -expand => 1);
@@ -252,6 +244,14 @@ sub Show {
 	$win->Icon (-image => $photo);
 
 	$win->deiconify;
+
+	# Grab.
+	if ($grab eq 'global') {
+		$win->grabGlobal;
+	}
+	else {
+		$win->grab;
+	}
 
 	# Wait for a button.
 	$win->focusForce;
@@ -480,6 +480,9 @@ program that you include it with your program and pass in a Tk::Photo object
 instead.
 
 =head1 CHANGES
+
+  0.03  Sep 19 2008
+  - Fixed a bug with "-grab => global" not working properly.
 
   0.02  Sep 19 2008
   - Added a binding so that the space bar invokes the default button in addition
