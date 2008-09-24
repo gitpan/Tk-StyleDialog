@@ -10,7 +10,7 @@ use Tk::Toplevel;
 use Tk::PNG;
 use Tk::Widget;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 Tk::Widget->Construct ('StyleDialog');
 
 # CORE Built-in icons.
@@ -480,6 +480,10 @@ program that you include it with your program and pass in a Tk::Photo object
 instead.
 
 =head1 CHANGES
+
+  0.04  Sep 24 2008
+  - Fixed Makefile.PL to name Tk and Tk::PNG as dependencies (to stop being
+    nagged by CPAN test failures :P)
 
   0.03  Sep 19 2008
   - Fixed a bug with "-grab => global" not working properly.

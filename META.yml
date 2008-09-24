@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Tk-StyleDialog
-version:             0.03
+version:             0.04
 abstract:            Stylish dialog boxes with custom icons.
 license:             ~
 author:              
@@ -8,6 +8,8 @@ author:
 generated_by:        ExtUtils::MakeMaker version 6.42
 distribution_type:   module
 requires:     
+    Tk:                            0
+    Tk::PNG:                       0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.3.html
     version: 1.3

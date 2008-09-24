@@ -1,5 +1,9 @@
 Revision history for Perl extension Tk::StyleDialog.
 
+  0.04  Sep 24 2008
+  - Fixed Makefile.PL to name Tk and Tk::PNG as dependencies (to stop being
+    nagged by CPAN test failures :P)
+
   0.03  Sep 19 2008
   - Fixed a bug with "-grab => global" not working properly.
 
